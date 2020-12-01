@@ -2,12 +2,19 @@ provider "kubernetes" {
   config_context_cluster   = "minikube"
 }
 
+resource "kubernetes_namespace" "fullstack" {
+    metadata {
+      name = "development"
+    }
+}
+
 resource "kubernetes_deployment" "fullstack" {
   metadata {
     name = "fullstack"
     labels = {
       app = "fullstack"
     }
+    namespace = "${kubernetes_namespace.fullstack.metadata.0.name}"
   }
   spec {
     replicas = 1
@@ -54,6 +61,7 @@ resource "kubernetes_service" "fullstack" {
       app = "fullstack"
       tier = "frontendbackend"
     }
+    namespace = "${kubernetes_namespace.fullstack.metadata.0.name}"
   }
   spec {
     type = "NodePort"
@@ -76,12 +84,13 @@ resource "kubernetes_service" "fullstack" {
 resource "kubernetes_ingress" "fullstack" {
   metadata {
     name = "fullstack"
+    namespace = "${kubernetes_namespace.fullstack.metadata.0.name}"
   }
 
   spec {
 
     rule {
-      host = "hello-world.info"
+      host = "fullstack.info"
       http {
         path {
           backend {
@@ -89,7 +98,7 @@ resource "kubernetes_ingress" "fullstack" {
             service_port = 3000
           }
 
-          path = "/fe"
+          path = "/"
         }
 
         path {
