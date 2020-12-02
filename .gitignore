@@ -3,3 +3,4 @@ versions.tf
 terraform.tfstate.d
 terraform.tfstate.backup
 terraform.tfstate
+azure/variables.tf

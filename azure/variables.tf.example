@@ -1,0 +1,30 @@
+variable "resourcename" {
+  default = "fullstack-resources"
+}
+variable "clustername" {
+  default = "fullstack-cluster"
+}
+variable "location" {
+  default = "East US"
+}
+variable "dnspreffix" {
+  default = "kubecluster"
+}
+variable "size" {
+  default = "Standard_D2_v2"
+}
+variable "agentnode" {
+  default = "1"
+}
+variable "subscription_id" {
+  default = "****-***-***-***-***"
+}
+variable "client_id" {
+  default = "***-***-****-***-***"
+}
+variable "client_secret" {
+  default = "***.****~***"
+}
+variable "tenant_id" {
+  default = "****-**-***-**-***"
+}
