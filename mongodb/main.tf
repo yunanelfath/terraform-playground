@@ -51,9 +51,15 @@ resource "docker_container" "mongodb" {
   ]
   command = [
     "mongod", "--replSet", "rs0",
-    "--keyFile", "/etc/mongo-keyfile"
+    "--keyFile", "/etc/mongo-keyfile",
+    "--bind_ip_all",
   ]
 
+
+  networks_advanced {
+    name         = "application"
+    ipv4_address = "10.0.100.4"
+  }
   volumes {
     container_path = "/data/db"
     host_path      = abspath("${path.module}/db")
@@ -70,8 +76,8 @@ resource "docker_container" "mongodb" {
 resource "null_resource" "init_mongo_replset" {
   provisioner "local-exec" {
     command = <<EOT
-      sleep 90
-      mongosh --host localhost -u ${var.mongo_root_username} -p ${var.mongo_root_password} --eval 'rs.initiate({_id: "rs0", members: [{ _id: 0, host: "localhost:27017" }]})'
+      sleep 30
+      mongosh --host localhost -u ${var.mongo_root_username} -p ${var.mongo_root_password} --eval 'rs.initiate({_id: "rs0", members: [{ _id: 0, host: "mongodb_adminsecret123:27017" }]})'
     EOT
   }
 
