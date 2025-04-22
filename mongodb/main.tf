@@ -77,7 +77,7 @@ resource "null_resource" "init_mongo_replset" {
   provisioner "local-exec" {
     command = <<EOT
       sleep 30
-      mongosh --host localhost -u ${var.mongo_root_username} -p ${var.mongo_root_password} --eval 'rs.initiate({_id: "rs0", members: [{ _id: 0, host: "mongodb_adminsecret123:27017" }]})'
+      mongosh --host localhost -u ${var.mongo_root_username} -p ${var.mongo_root_password} --eval 'rs.initiate({_id: "rs0", members: [{ _id: 0, host: "127.0.0.1:27017" }]})'
     EOT
   }
 
